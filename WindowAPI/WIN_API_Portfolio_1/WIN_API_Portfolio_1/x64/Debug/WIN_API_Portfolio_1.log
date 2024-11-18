@@ -1,0 +1,25 @@
+﻿  WIN_API_Portfolio_1.cpp
+D:\visual\VC\Tools\MSVC\14.41.34120\include\xutility(403,82): warning C4244: '인수': '_Ty'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\visual\VC\Tools\MSVC\14.41.34120\include\xutility(403,82): warning C4244:         with
+D:\visual\VC\Tools\MSVC\14.41.34120\include\xutility(403,82): warning C4244:         [
+D:\visual\VC\Tools\MSVC\14.41.34120\include\xutility(403,82): warning C4244:             _Ty=int
+D:\visual\VC\Tools\MSVC\14.41.34120\include\xutility(403,82): warning C4244:         ]
+  (소스 파일 'WIN_API_Portfolio_1.cpp'을(를) 컴파일하는 중)
+      D:\visual\VC\Tools\MSVC\14.41.34120\include\xutility(403,82):
+      템플릿 인스턴스화 컨텍스트(가장 오래된 인스턴스화 컨텍스트)가
+          D:\Portfolio\WindowAPI\WIN_API_Portfolio_1\WIN_API_Portfolio_1\WIN_API_Portfolio_1.cpp(138,39):
+          컴파일되는 함수 템플릿 인스턴스화 'std::shared_ptr<CircleCollider> std::make_shared<CircleCollider,Vector,int>(Vector &&,int &&)'에 대한 참조를 확인하세요.
+          D:\visual\VC\Tools\MSVC\14.41.34120\include\memory(2906,46):
+          컴파일되는 함수 템플릿 인스턴스화 'std::_Ref_count_obj2<CircleCollider>::_Ref_count_obj2<_Ty,int>(_Ty &&,int &&)'에 대한 참조를 확인하세요.
+          with
+          [
+              _Ty=Vector
+          ]
+          D:\visual\VC\Tools\MSVC\14.41.34120\include\memory(2095,18):
+          컴파일되는 함수 템플릿 인스턴스화 'void std::_Construct_in_place<_Ty,Vector,int>(_Ty &,Vector &&,int &&) noexcept(false)'에 대한 참조를 확인하세요.
+          with
+          [
+              _Ty=CircleCollider
+          ]
+  
+  WIN_API_Portfolio_1.vcxproj -> D:\Portfolio\WindowAPI\WIN_API_Portfolio_1\x64\Debug\WIN_API_Portfolio_1.exe
