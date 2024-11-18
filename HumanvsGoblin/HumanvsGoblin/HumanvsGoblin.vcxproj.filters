@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{87545653-6a0d-4acb-b2cc-bb0f457c916b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameManager">
+      <UniqueIdentifier>{7993908a-30c8-4d48-a1cd-30afc3a327c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="framework">
+      <UniqueIdentifier>{bd15cf8e-222e-452c-b713-96e62d9162a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{12c4a46e-2a22-44ae-abb6-7abc034f883c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Monsters">
+      <UniqueIdentifier>{983b7136-a269-464c-85e2-6f1e00f86451}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\PlayerUnits">
+      <UniqueIdentifier>{de33533a-4b4b-43ed-bfb8-a2313da9659e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="World.cpp">
+      <Filter>GameManager</Filter>
+    </ClCompile>
+    <ClCompile Include="framework.cpp">
+      <Filter>framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="BossGoblin.cpp">
+      <Filter>Objects\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="Goblin.cpp">
+      <Filter>Objects\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="Archer.cpp">
+      <Filter>Objects\PlayerUnits</Filter>
+    </ClCompile>
+    <ClCompile Include="Knight.cpp">
+      <Filter>Objects\PlayerUnits</Filter>
+    </ClCompile>
+    <ClCompile Include="Mage.cpp">
+      <Filter>Objects\PlayerUnits</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerUnit.cpp">
+      <Filter>Objects\PlayerUnits</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Objects\Monsters</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Creature.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="World.h">
+      <Filter>GameManager</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="BossGoblin.h">
+      <Filter>Objects\Monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="Goblin.h">
+      <Filter>Objects\Monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="Archer.h">
+      <Filter>Objects\PlayerUnits</Filter>
+    </ClInclude>
+    <ClInclude Include="Knight.h">
+      <Filter>Objects\PlayerUnits</Filter>
+    </ClInclude>
+    <ClInclude Include="Mage.h">
+      <Filter>Objects\PlayerUnits</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUnit.h">
+      <Filter>Objects\PlayerUnits</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Objects\Monsters</Filter>
+    </ClInclude>
+    <ClInclude Include="Creature.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
