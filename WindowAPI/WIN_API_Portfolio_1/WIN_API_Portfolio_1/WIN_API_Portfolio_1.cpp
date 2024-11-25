@@ -135,12 +135,32 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 // message :
 
-shared_ptr<CircleCollider> myCircle = make_shared<CircleCollider>(Vector(200, 200), 70);
+Vector mousePos;
+shared_ptr<Program> program = make_shared<Program>();
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
+    case WM_CREATE:
+    {
+        SetTimer(hWnd, 1, 1, nullptr); // 1ms 마다 WM_TIMER 메시지 처리
+        break;
+    }
+    case WM_TIMER:
+    {
+
+        InvalidateRect(hWnd, nullptr, true);
+        break;
+    }
+
+    case WM_MOUSEMOVE: // 마우스가 움직일 대마다 처리되는 메시지
+    {
+        mousePos.x = static_cast<float>(LOWORD(lParam));
+        mousePos.y = static_cast<float>(HIWORD(lParam));
+
+        break;
+    }
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
@@ -163,16 +183,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
-
-            // Rect
-            Rectangle(hdc, 0, 0, 100, 100);
-
-            myCircle->Render(hdc);
-
-            // 선
-            MoveToEx(hdc, 500, 500, nullptr);
-            LineTo(hdc, 700, 700);
-
+            program->Update();
+            program->Render(hdc);
+            
             EndPaint(hWnd, &ps);
         }
         break;

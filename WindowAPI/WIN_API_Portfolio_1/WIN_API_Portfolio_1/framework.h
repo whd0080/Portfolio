@@ -1,5 +1,4 @@
-﻿// header.h: 표준 시스템 포함 파일
-// 또는 프로젝트 특정 포함 파일이 들어 있는 포함 파일입니다.
+﻿// 또는 프로젝트 특정 포함 파일이 들어 있는 포함 파일입니다.
 //
 
 #pragma once
@@ -21,8 +20,21 @@
 
 using namespace std;
 
+#include "Types.h"
+
 // Math
 #include "Math/Vector.h"
 
 // Contents
+#include "Contents/Objects/Line.h"
+#include "Contents/Objects/Collider.h"
 #include "Contents/Objects/CircleCollider.h"
+#include "Contents/Objects/RectCollider.h"
+
+// Scene
+#include "Scenes/Scene.h"
+
+// Program
+#include "Program/Program.h"
+
+extern Vector mousePos;

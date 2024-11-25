@@ -56,31 +56,31 @@ public:
         return sqrtf((x * x) + (y * y));
     }
 
+    float LengthSquared() const
+    {
+        return x * x + y * y;
+    }
+
     Vector operator+(const Vector& other) const {
-
-
-
-        Vector result;
-
-        result.x = this->x + other.x;
-        result.y = this->y + other.y;
-
-        return result;
-
+        return Vector(x + other.x, y + other.y);
     }
+
     Vector operator-(const Vector& other) const {
-
-        Vector result;
-
-        result.x = this->x - other.x;
-        result.y = this->y - other.y;
-
-        return result;
+        return Vector(x - other.x, y - other.y);
     }
+
+    Vector& operator+=(const Vector& other) {
+        x += other.x;
+        y += other.y;
+        return *this;
+    }
+
+
     Vector operator*(const float& value) const
     {
         return Vector(x * value, y * value);
     }
+
     Vector NormalVector() const
     {
         return Vector(x / Length(), y / Length());
