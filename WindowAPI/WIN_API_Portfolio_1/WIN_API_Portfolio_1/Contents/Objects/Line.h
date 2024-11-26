@@ -12,3 +12,4 @@ public:
 	Vector _start;
 	Vector _end;
 };
+

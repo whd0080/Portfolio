@@ -5,9 +5,9 @@ PaintScene::PaintScene()
 {
     _pens.reserve(3);
     {
-        _pens.push_back(CreatePen(3, 3, RGB(255, 0, 0)));
-        _pens.push_back(CreatePen(3, 3, RGB(0, 255, 0)));
-        _pens.push_back(CreatePen(3, 3, RGB(0, 0, 255)));
+        _pens.push_back(CreatePen(3, 3, RGB(255, 0, 0))); // »¡
+        _pens.push_back(CreatePen(3, 3, RGB(0, 255, 0))); // ÃÊ
+        _pens.push_back(CreatePen(3, 3, RGB(0, 0, 255))); // ÆÄ
     }
 
     _brushes.reserve(3);
@@ -35,6 +35,7 @@ void PaintScene::Update()
 {
     rect->Center() = LinearInterpolation(rect->Center(), mousePos, 0.1f);
     myCircle->Center() = mousePos;
+
     myCircle->Update();
     rect->Update();
     line->Update();

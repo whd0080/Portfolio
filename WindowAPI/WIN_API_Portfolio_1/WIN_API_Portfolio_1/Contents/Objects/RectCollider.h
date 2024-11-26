@@ -2,32 +2,32 @@
 class RectCollider : public Collider
 {
 public:
-	RectCollider(Vector center, Vector size, float angle);
+	struct OBB_INFO
+	{
+		Vector position;
+		Vector direction[2]; // 가로 세로 벡터
+		float length[2]; // 가로 세로 길이
+	};
+
+	RectCollider(Vector center, Vector size);
 	~RectCollider();
 
 	virtual void Update() override;
 	virtual void Render(HDC hdc) override;
 
-	void Rotation(float rotation) { _angle += rotation; }
-	void ProjectOntoAxis(const Vector& axis, float& min, float& max);
-
-	int Left() { return _center.x - _halfSize.x; }
-	int Right() { return _center.x + _halfSize.x; }
-	int Top() { return _center.y - _halfSize.y; }
-	int Bottom() { return _center.y + _halfSize.y; }
+	int Left() const { return _center.x - _halfSize.x; }
+	int Right() const { return _center.x + _halfSize.x; }
+	int Top() const { return _center.y - _halfSize.y; }
+	int Bottom() const { return _center.y + _halfSize.y; }
 
 	virtual bool IsCollision(const Vector& pos) const override;
 	virtual bool IsCollision(shared_ptr<class CircleCollider> other) const override;
 	virtual bool IsCollision(shared_ptr<RectCollider> other) const override;
 
-	Vector AxisX() const { return Vector(cos(_angle), sin(_angle)); }
-	Vector AxisY() const { return Vector(-sin(_angle), cos(_angle)); }
-
-	Vector HalfSize() { return _halfSize; }
-
-	vector<Vector> GetCorners() const;
+	OBB_INFO GetOBB() const;
+	float SeperateAxis(Vector seperate, Vector e1, Vector e2) const;
 
 private:
 	Vector		 _halfSize;
-	float		 _angle = 0.0f;
 };
+

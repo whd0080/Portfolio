@@ -5,6 +5,8 @@
 CircleCollider::CircleCollider(Vector center, float radius)
 	: _radius(radius)
 {
+	_type = Collider::Type::CIRCLE;
+
 	_center = center;
 
 	_colors[0] = CreatePen(3, 3, RED);
@@ -51,32 +53,5 @@ bool CircleCollider::IsCollision(shared_ptr<CircleCollider> other) const
 
 bool CircleCollider::IsCollision(shared_ptr<RectCollider> other) const
 {
-	// AABB
-	float closetX = max(other->Left(), min(_center.x, other->Right()));
-	float closetY = max(other->Top(), min(_center.y, other->Bottom()));
-
-	float distanceX = _center.x - closetX;
-	float distanceY = _center.y - closetY;
-	float distanceSquared = distanceX * distanceX + distanceY * distanceY;
-
-
-	return distanceSquared <= (_radius * _radius);
-
-	// OBB
-	/*Vector centerDistance = _center - other->Center();
-
-	Vector axisX = other->AxisX();
-	Vector axisY = other->AxisY();
-
-	float projectionX = centerDistance.Dot(axisX);
-	float projectionY = centerDistance.Dot(axisY);
-
-	float clampedProjectionX = max(-other->HalfSize().x, min(projectionX, other->HalfSize().x));
-	float clampedProjectionY = max(-other->HalfSize().y, min(projectionY, other->HalfSize().y));
-
-	Vector closestPoint = other->Center() + axisX * clampedProjectionX + axisY * clampedProjectionY;
-
-	float distanceSquared = (_center - closestPoint).LengthSquared();
-
-	return distanceSquared <= (_radius * _radius);*/
+	return other->IsCollision(static_pointer_cast<CircleCollider>(const_pointer_cast<Collider>(shared_from_this())));
 }
