@@ -4,90 +4,85 @@
 struct Vector {
 
 public:
-    Vector() :x(0.0f), y(0.0f) {
+    Vector() :x(0.0f), y(0.0f) {}
+    Vector(float x, float y) : x(x), y(y) {}
+    Vector(const Vector& other) : x(other.x), y(other.y) {}
+    ~Vector() {}
 
-
-    }
-    Vector(float x, float y) : x(x), y(y) {
-
-
-    }
-    Vector(const Vector& other) : x(other.x), y(other.y) {
-
-
-    }
-    ~Vector() {
-
-    }
-
-
-    float& operator[](int temp) {
-
-        if (temp == 0) {
-
-            return x;
-
-        }
-        else {
-
-            return y;
-        }
-    }
-
-    float Dot(const Vector& other) {
-
+    float Dot(const Vector& other)
+    {
         float result;
-
         result = (this->x * other.x) + (this->y * other.y);
 
         return result;
     }
-    float Cross(const Vector& other) {
-
+    float Cross(const Vector& other)
+    {
         float result;
-
         result = (this->x * other.y) - (this->y * other.x);
 
         return result;
-
     }
-    float Length() const {
+    float Length() const
+    {
 
         return sqrtf((x * x) + (y * y));
     }
 
-    float LengthSquared() const
+    Vector operator+(const Vector& other) const
     {
-        return x * x + y * y;
+
+        Vector result;
+
+        result.x = this->x + other.x;
+        result.y = this->y + other.y;
+
+        return result;
     }
+    Vector operator-(const Vector& other) const
+    {
+        Vector result;
 
-    Vector operator+(const Vector& other) const {
-        return Vector(x + other.x, y + other.y);
+        result.x = this->x - other.x;
+        result.y = this->y - other.y;
+
+        return result;
     }
-
-    Vector operator-(const Vector& other) const {
-        return Vector(x - other.x, y - other.y);
-    }
-
-    Vector& operator+=(const Vector& other) {
-        x += other.x;
-        y += other.y;
-        return *this;
-    }
-
-
     Vector operator*(const float& value) const
     {
         return Vector(x * value, y * value);
     }
-
     Vector NormalVector() const
     {
-        return Vector(x / Length(), y / Length());
+        float length = Length();
+
+        return Vector(x / length, y / length);
+    }
+
+    Vector& operator=(const Vector& other)
+    {
+        x = other.x;
+        y = other.y;
+
+        return *this;
+    }
+    Vector& operator+=(const Vector& other)
+    {
+        x += other.x;
+        y += other.y;
+
+        return *this;
+    }
+
+    void Normalize()
+    {
+        float length = Length();
+
+        x /= length;
+        y /= length;
     }
 
 public:
     float x;
     float y;
-
 };

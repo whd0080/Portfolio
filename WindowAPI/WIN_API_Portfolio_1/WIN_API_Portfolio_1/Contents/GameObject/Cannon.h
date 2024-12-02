@@ -1,5 +1,7 @@
 #pragma once
-class Cannon
+#include "Barrel.h"
+
+class Cannon : public enable_shared_from_this<Cannon>
 {
 public:
 	Cannon();
@@ -7,6 +9,12 @@ public:
 
 	void Update();
 	void Render(HDC hdc);
+
+	const Vector& GetCenter() { return _body->Center(); }
+
+	void Ready() { _barrel->SetCannon(shared_from_this()); }
+	void Fire();
+	void BallErase();
 
 private:
 	// 입력으로 좌우로 움직이게 만드는 함수
@@ -16,7 +24,6 @@ private:
 
 private:
 	shared_ptr<CircleCollider> _body;
-	shared_ptr<Line> _barrel;
-	double _angle = 0.0f;
+	shared_ptr<class Barrel> _barrel;
+	vector<shared_ptr<class Ball>> _balls;
 };
-
