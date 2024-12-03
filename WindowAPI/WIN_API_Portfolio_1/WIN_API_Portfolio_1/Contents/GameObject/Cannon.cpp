@@ -1,34 +1,50 @@
 #include "framework.h"
 #include "Barrel.h"
 #include "Ball.h"
+
 #include "Cannon.h"
 
 Cannon::Cannon()
 {
 	_body = make_shared<CircleCollider>(Vector(100, 600), 30);
 	_barrel = make_shared<Barrel>();
+
+	// ball 생성
+	for (int i = 0; i < _poolCount; i++)
+	{
+		auto ball = make_shared<Ball>();
+
+		_ballPool.push_back(ball);
+	}
 }
 
 Cannon::~Cannon()
 {
 }
 
+// CPU
 void Cannon::Update()
 {
+	_body->Update();
+	_barrel->Update();
+
+	for (auto ball : _ballPool)
+	{
+		ball->Update();
+	}
+
 	InputMove(); // 입력해서 움직이게
 	InputBarrelRotation(); // 입력으로 총신 각도 조정
 	Fire();
-
-	_body->Update();
-	_barrel->Update();
-	BallErase();
+	
 }
 
+// GPU
 void Cannon::Render(HDC hdc)
 {
 	_barrel->Render(hdc);
 	_body->Render(hdc);
-	for (const auto& ball : _balls)
+	for (auto ball : _ballPool)
 	{
 		ball->Render(hdc);
 	}
@@ -38,40 +54,26 @@ void Cannon::Fire()
 {
 	// 0b 1000 0000 0000 0001
 	// 0b 0111 0000 0000 0001
-	Vector dir = mousePos - _body->Center();
-	dir.Normalize();
+	clock_t currentFireTime = clock();
 
-	if (GetAsyncKeyState(VK_SPACE) & 0x8001)
+	if (currentFireTime - _lastFireTime < 1000)
+		return;
+
+	if (GetAsyncKeyState(VK_LBUTTON) & 0x8001)
 	{
-		auto ball = make_shared<Ball>();
-		ball->SetCenter(_body->Center() + dir * 95.0f); // 왜 포신과 같은 길이로 입력했는데 다른 길이가 나오는지 질문...
-		ball->SetDirection(dir);
-		_balls.push_back(ball);
+		auto iter = std::find_if(_ballPool.begin(), _ballPool.end(), [](const shared_ptr<Ball>& ball) -> bool
+			{
+				if (ball->IsActive() == false)
+					return true;
+				return false;
+			});
+
+		if (iter == _ballPool.end()) return;
+
+		(*iter)->Fire(_barrel->GetMuzzle(), _barrel->GetDirection());
+
+		_lastFireTime = currentFireTime;
 	}
-}
-
-void Cannon::BallErase()
-{
-	int width = GetSystemMetrics(SM_CXSCREEN);
-	int height = GetSystemMetrics(SM_CYSCREEN);
-
-	for (auto Iter = _balls.begin(); Iter != _balls.end();)
-	{
-		(*Iter)->Update();
-
-		// 화면 밖으로 나간 대포알 제거
-		if ((*Iter)->GetCenter().x < 0 || (*Iter)->GetCenter().x > width ||
-			(*Iter)->GetCenter().y > height)
-		{
-			Iter = _balls.erase(Iter);
-		}
-		else
-		{
-			++Iter;
-		}
-	}
-
-	_balls.shrink_to_fit();
 }
 
 void Cannon::InputMove()

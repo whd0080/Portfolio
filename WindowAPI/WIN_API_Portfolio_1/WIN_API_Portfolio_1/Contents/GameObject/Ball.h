@@ -8,15 +8,19 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-	void SetCenter(Vector center);
-	void SetDirection(Vector dir) { _directrion = dir; }
+	void SetPos(const Vector& pos) { _ball->Center() = pos; }
+	const Vector& GetPos() { return _ball->Center(); }
+	void SetDirection(const Vector& dir) { _direction = dir.NormalVector(); }
 
-	Vector GetCenter() { return _ball->Center(); }
+	void Fire(Vector pos, Vector dir);
+	bool IsActive() { return _isActive; }
+	bool IsOut();
 
 private:
+	bool _isActive = false;
+
 	shared_ptr<CircleCollider> _ball;
-	Vector _directrion = Vector(1,0);
-	float _speed = 10.0f;
+	Vector _direction = Vector(1, 0);
+	float _speed = 10.0f;;
 	float _gravity = 0.0f;
 };
-

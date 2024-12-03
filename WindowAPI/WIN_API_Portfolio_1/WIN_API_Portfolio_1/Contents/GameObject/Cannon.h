@@ -12,9 +12,8 @@ public:
 
 	const Vector& GetCenter() { return _body->Center(); }
 
-	void Ready() { _barrel->SetCannon(shared_from_this()); }
 	void Fire();
-	void BallErase();
+	void Ready() { _barrel->SetCannon(shared_from_this()); }
 
 private:
 	// 입력으로 좌우로 움직이게 만드는 함수
@@ -25,5 +24,9 @@ private:
 private:
 	shared_ptr<CircleCollider> _body;
 	shared_ptr<class Barrel> _barrel;
-	vector<shared_ptr<class Ball>> _balls;
+
+	int _poolCount = 30;
+	vector<shared_ptr<class Ball>> _ballPool;
+
+	clock_t _lastFireTime;
 };
