@@ -6,7 +6,7 @@
 
 Cannon::Cannon()
 {
-	_body = make_shared<CircleCollider>(Vector(100, 600), 30);
+	_body = make_shared<CircleCollider>(Vector(350, 350), 30);
 	_barrel = make_shared<Barrel>();
 
 	// ball 생성
@@ -16,6 +16,7 @@ Cannon::Cannon()
 
 		_ballPool.push_back(ball);
 	}
+	// _barrel->SetCannon(shared_from_this()); // 캐논의 생성자에서 shared_from_this()... 
 }
 
 Cannon::~Cannon()
@@ -34,14 +35,20 @@ void Cannon::Update()
 	}
 
 	InputMove(); // 입력해서 움직이게
-	InputBarrelRotation(); // 입력으로 총신 각도 조정
-	Fire();
-	
+	InputBarrelRotation(); // 입력으로 총싱 각도 조정
+
+	if (IsFireReady())
+		Fire();
+
+	_damageTime += 0.01f;
 }
 
 // GPU
 void Cannon::Render(HDC hdc)
 {
+	if (IsDead())
+		return;
+
 	_barrel->Render(hdc);
 	_body->Render(hdc);
 	for (auto ball : _ballPool)
@@ -52,14 +59,12 @@ void Cannon::Render(HDC hdc)
 
 void Cannon::Fire()
 {
-	// 0b 1000 0000 0000 0001
-	// 0b 0111 0000 0000 0001
-	clock_t currentFireTime = clock();
-
-	if (currentFireTime - _lastFireTime < 1000)
+	if (_myturn == false)
 		return;
 
-	if (GetAsyncKeyState(VK_LBUTTON) & 0x8001)
+	// 0b 1000 0000 0000 0001
+	// 0b 0111 0000 0000 0001
+	if (GetAsyncKeyState(VK_SPACE) & 0x8001)
 	{
 		auto iter = std::find_if(_ballPool.begin(), _ballPool.end(), [](const shared_ptr<Ball>& ball) -> bool
 			{
@@ -71,13 +76,43 @@ void Cannon::Fire()
 		if (iter == _ballPool.end()) return;
 
 		(*iter)->Fire(_barrel->GetMuzzle(), _barrel->GetDirection());
-
-		_lastFireTime = currentFireTime;
 	}
+
+	_myturn = false;
+}
+
+void Cannon::MyTurn(shared_ptr<Cannon> other)
+{
+	if (other->_myturn == false)
+		_myturn = true;
+}
+
+bool Cannon::GetHit(const vector<shared_ptr<Ball>>& balls)
+{
+	for (const auto& ball : balls)
+	{
+		if (_body->IsCollision(ball->GetBall()))
+		{
+			ball->IsHit(_body);
+			if(IsDamageReady())
+				TakeDamage();
+			return true;
+		}
+	}
+	return false;
+}
+
+void Cannon::TakeDamage()
+{
+	_damageTime = 0.0f;
+	_hp -= 1;
 }
 
 void Cannon::InputMove()
 {
+	if (_myturn == false)
+		return;
+
 	if (GetAsyncKeyState(VK_LEFT) & 0x8001)
 		_body->Center().x -= 3;
 
@@ -87,6 +122,9 @@ void Cannon::InputMove()
 
 void Cannon::InputBarrelRotation()
 {
+	if (_myturn == false)
+		return;
+
 	Vector dir = mousePos - _body->Center();
 	dir.Normalize();
 

@@ -79,7 +79,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hInstance      = hInstance;
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_WINAPIPORTFOLIO1));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
+    wcex.hbrBackground = (HBRUSH)(CreateSolidBrush(RGB(0, 0, 0)));
     wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_WINAPIPORTFOLIO1);
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
@@ -146,11 +146,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
     case WM_CREATE:
     {
-        SetTimer(hWnd, 1, 1, nullptr); // 1ms 마다 WM_TIMER 메시지 처리
+        SetTimer(hWnd, 1, 1, nullptr); // 10ms 마다 WM_TIMER 메시지 처리
         break;
     }
     case WM_TIMER:
     {
+        program->Update(); // 1초에 100... => 100fps
 
         InvalidateRect(hWnd, nullptr, true);
         break;

@@ -3,7 +3,7 @@
 
 Ball::Ball()
 {
-	_ball = make_shared<CircleCollider>(Vector(0, 0), 5);
+	_ball = make_shared<CircleCollider>(Vector(0, 0), 10);
 }
 
 Ball::~Ball()
@@ -12,7 +12,6 @@ Ball::~Ball()
 
 void Ball::Update()
 {
-	if (IsOut() == true) { _isActive = false; }
 	if (_isActive == false)	return;
 
 	_ball->Update();
@@ -21,8 +20,9 @@ void Ball::Update()
 	// 어디서부터 어느 방향(_direction)으로 어떤 속도(_speed)로 날아간다.
 	_ball->Center() += _direction * _speed;
 
-	_gravity += 0.08f;
+	_gravity += 1.0f;
 	_ball->Center().y += _gravity;
+	if (IsOut() == true) _isActive = false;
 }
 
 void Ball::Render(HDC hdc)
@@ -48,5 +48,6 @@ bool Ball::IsOut()
 
 	if (x > WIN_WIDTH || x < 0 || y > WIN_HEIGHT)
 		return true;
+
 	return false;
 }

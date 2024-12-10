@@ -18,7 +18,7 @@ public:
 private:
 	shared_ptr<Line> _line;
 
-	float _length = 100.0f;
+	float _length = 60.0f;
 	Vector _direction = Vector(1, 0);
 
 	// 외부에서 생성한 것을 참조하고 있을 때는 weak_ptr이 권장된다.
